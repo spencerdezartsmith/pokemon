@@ -1,0 +1,13 @@
+.card {
+  padding: 10px;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px 0 rgba(20,55,125,.15);
+  transition: all .5s;
+  &:hover {
+    box-shadow: 0 6px 10px 4px rgba(20,55,125,.25);
+  }
+  .image {
+    max-width: 100%;
+  }
+}

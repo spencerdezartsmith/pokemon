@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  background-color: #fcfcfc;
+  .filters {
+    height: 800px;
+    min-width: 270px;
+    background-color: white;
+  }
+  .results_grid {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: auto;
+    grid-gap: 20px;
+    justify-content: center;
+    grid-auto-flow: dense;
+    grid-area: mainCol;
+    padding: 8px;
+  }
+}
