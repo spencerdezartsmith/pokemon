@@ -1,0 +1,123 @@
+// Mixins
+
+// ------------------------------
+// Screen breakpoints
+// ------------------------------
+@mixin respond-to($media) {
+  // Primary breakpoints
+  @if $media == sm {
+    /* Small devices (tablets, 768px and up) */
+    @media screen and (min-width: $screen-width-sm + px) {
+      @content;
+    }
+  }
+  @else if $media == md {
+    /* Medium devices (desktops, 1024px and up) */
+    @media screen and (min-width: $screen-width-md + px) {
+      @content;
+    }
+  }
+  @else if $media == lg {
+    /* Large devices (large desktops, 1280px and up) */
+    @media screen and (min-width: $screen-width-lg + px) {
+      @content;
+    }
+  }
+
+  // New breakpoints for AT re-designs
+  @else if $media == xsmall {
+    /* Extra small devices (360px and up) */
+    @media screen and (min-width: $screen-width-xxs + px) {
+      @content;
+    }
+  }
+  @else if $media == standard {
+    // Standard desktops (1366px and up)
+    @media screen and (min-width: $screen-width-standard + px) {
+      @content;
+    }
+  }
+  @else if $media == big {
+    // Big desktops (1680px and up)
+    @media screen and (min-width: $screen-width-big + px) {
+      @content;
+    }
+  }
+
+  // Secondary breakpoints (to be avoided unless required to fix specific issues)
+  @else if $media == xs {
+    /* Small devices (mobiles, 767px and down) */
+    @media screen and (max-width: ($screen-width-sm - 1) + px) {
+      @content;
+    }
+  }
+  @else if $media == xxs {
+    /* Extra small devices (small mobiles, 374px and down) */
+    @media screen and (max-width: $screen-width-xs + px) {
+      @content;
+    }
+  }
+  @else if $media == xlg {
+    /* Large devices (large desktops, 1440px and up) */
+    @media screen and (min-width: $screen-width-xlg + px) {
+      @content;
+    }
+  }
+  @else if $media == smmd {
+    /* Custom md devices (between 768px and 1190px) */
+    @media screen and (min-width: $screen-width-md + px) and (max-width: $screen-width-xslg + px) {
+      @content;
+    }
+  }
+  @else if $media == ssmlg {
+    /* Custom lg devices (smaller desktop devices) (between 1275px and 1385) */
+    @media screen and (min-width: $screen-width-ssmlg-min + px) and (max-width: $screen-width-ssmlg-max + px) {
+      @content;
+    }
+  }
+  @else if $media == smlg {
+    /* Custom lg devices (between 1280px and 1440px) */
+    @media screen and (min-width: $screen-width-lg + px) and (max-width: $screen-width-xlg + px) {
+      @content;
+    }
+  }
+  @else if $media == xslg {
+    /* Custom lg devices (between 1280px and 1300px) */
+    @media screen and (min-width: $screen-width-lg + px) and (max-width: $screen-width-smlg + px) {
+      @content;
+    }
+  }
+  // Custom breakpoints to fix hidden ads on the rhc.
+  @else if $media == sclg {
+    /* Required because webkit and blink report width differently. */
+    @media screen and (min-width: $screen-width-sclg + px) {
+      @content;
+    }
+  }
+
+  // Custom breakpoints for desktop sell flow.
+  @else if $media == clg {
+    /* custom large device (1365px) fixes clipping issues */
+    @media screen and (min-width: $screen-width-clg + px) {
+      @content;
+    }
+  }
+  @else if $media == bmd {
+    /* custom medium device (992px) fixes scaling issues */
+    @media screen and (min-width: $screen-width-bmd + px) {
+      @content;
+    }
+  }
+  @else if $media == ixs {
+    /* custom medium device (480px) fixes scaling issues on imageCarousel */
+    @media screen and (max-width: $screen-width-ixs + px) {
+      @content;
+    }
+  }
+  @else if $media == amd {
+    /* alternative medium breakpoint to solve cg header issue on ipads (min-width 1028 and up) */
+    @media screen and (min-width: $screen-width-amd + px) {
+      @content;
+    }
+  }
+}

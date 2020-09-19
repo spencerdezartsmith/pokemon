@@ -45,7 +45,6 @@ function SearchResults(props) {
     try {
       const result = await axios.get(url);
       if (result.data) {
-        console.log(`${POKEMON_IMAGE}/${result.data.id}`);
         return { ...result.data, image: `${POKEMON_IMAGE}/${result.data.id}.png`};
       }
     } catch (error) {
@@ -54,8 +53,11 @@ function SearchResults(props) {
   }
 
   const generatePokeCardElements = () => {
-    const elements = Object.keys(pokemon).map(name => <PokeCard image={pokemon[name].image} name={name}/>);
-    return elements;
+    return Object.keys(pokemon).map(name => (<PokeCard
+      key={pokemon[name].id}
+      image={pokemon[name].image} 
+      name={name}
+      types={pokemon[name].types || []} />));
   }
 
   return (

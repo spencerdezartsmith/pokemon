@@ -9,12 +9,33 @@
   }
   .results_grid {
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(2,1fr);
     grid-template-rows: auto;
     grid-gap: 20px;
     justify-content: center;
     grid-auto-flow: dense;
     grid-area: mainCol;
     padding: 8px;
+    transition: all .5;
+    @include respond-to(xsmall) {
+      grid-template-columns: repeat(2, minmax(172px, 365px));
+    }
+    @include respond-to(sm) {
+      grid-template-columns: repeat(2, minmax(336px, 460px));
+      grid-gap: 24px 32px;
+      padding: 0 32px 32px;
+    }
+    @include respond-to(md) {
+      grid-gap: 24px;
+      padding: 0 24px 24px;
+    }
+    @include respond-to(standard) {
+      grid-template-columns: repeat(3, minmax(336px, 400px));
+    }
+    @include respond-to(big) {
+      grid-template-columns: repeat(4, minmax(336px, 360px));
+      grid-gap: 24px 14px;
+      padding: 0 12px 12px;
+    }
   }
 }
