@@ -26,12 +26,12 @@ function SearchResults(props) {
             for (const value of results) {
               try {
                 pokemonObj[value.name] = await fetchSinglePoke(value.url);
-                setLoading(false);
               } catch (error) {
                 console.log(`Error:: ${error}`);
               }
             }
             setPokemon(pokemonObj);
+            setLoading(false);
           }
         }
       } catch (error) {
@@ -52,12 +52,22 @@ function SearchResults(props) {
     }
   }
 
+  const capitalise = (word) => {
+    return `${word[0].toUpperCase()}${word.slice(1)}`
+  }
+
+  const getTypesString = (types) => {
+    if (types) return types.map(type => capitalise(type.type.name)).join(', ');
+    return '';
+  }
+
   const generatePokeCardElements = () => {
     return Object.keys(pokemon).map(name => (<PokeCard
       key={pokemon[name].id}
+      id={pokemon[name].id}
       image={pokemon[name].image} 
-      name={name}
-      types={pokemon[name].types || []} />));
+      name={capitalise(name)}
+      types={getTypesString(pokemon[name].types)}/>));
   }
 
   return (
@@ -65,9 +75,13 @@ function SearchResults(props) {
       <div className={classes.filters}>Filters</div>
       {loading ? 
         <p>Loading..</p> : 
-        <div className={classes.results_grid}>
-          {generatePokeCardElements()}
+        <div className={classes.grid_container}>
+          <h2>{count} Results</h2>
+          <div className={classes.results_grid}>
+            {generatePokeCardElements()}
+          </div>
         </div>
+        
       }
     </div>
   );

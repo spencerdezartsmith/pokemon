@@ -1,20 +1,20 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import classes from './Header.module.scss';
 import logo from '../../assets/pokemon-logo.png';
 
 function Header(props) {
   return (
     <header className={classes.header}>
-      <img src={logo} className={classes.logo} alt="logo" />
-      <div className={classes.nav_item_container}>
-        <div className={classes.nav_item}>
-          Shortlist
-        </div>
-        <div className={classes.nav_item}>
-          Login/Sign up
-        </div>
-      </div>
-      
+      <Link to='/'>
+        <img src={logo} className={classes.logo} alt='logo' />
+      </Link>
+      <nav>
+        <ul>
+          <li><Link to='/shortlist' style={{ textDecoration: 'none', color: 'black' }}>Shortlist</Link></li>
+          <li>Login/Sign up</li>
+        </ul>
+      </nav>
     </header>
   )
 }

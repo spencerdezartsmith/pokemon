@@ -1,16 +1,31 @@
 import React from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
 import classes from './App.module.scss';
 import Header from '../../components/Header/Header';
-import Layout from '../../components/Layout/Layout';
 import SearchResults from '../../components/SearchResults/SearchResults';
 
 function App() {
   return (
     <div className={classes.App}>
+    <Router>
       <Header/>
-      <Layout>
-        <SearchResults/>
-      </Layout>
+      <Switch>
+        <Route path="/shortlist">
+          <div>Hello shortlist</div>
+        </Route>
+        <Route path="/pokemon/:id">
+          <div>Hello pokemon page</div>
+        </Route>
+        <Route path="/">
+          <SearchResults/>
+        </Route>
+      </Switch>
+    </Router>
+      
     </div>
   );
 }
