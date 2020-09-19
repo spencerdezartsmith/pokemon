@@ -121,3 +121,59 @@
     }
   }
 }
+
+// ------------------------------
+// Breakpoints
+// ------------------------------
+
+/* Primary breakpoints */
+
+// Small screen / tablet portrait
+$screen-width-sm: 768;
+// Medium screen / tablet landscape
+$screen-width-md: 1024;
+// Small screen / desktop
+$screen-width-ssmlg-min: 1275;
+$screen-width-ssmlg-max: 1395;
+// Large screen / desktop
+$screen-width-lg: 1280;
+
+/* Secondary breakpoints */
+
+// Extra small screen / small mobile
+$screen-width-xs: 374;
+
+// small screen / small mobile height
+$screen-height-sm: 411;
+
+$screen-width-xslg: 1190;
+$screen-width-smlg: 1300;
+
+// Extra extra small screen
+$screen-width-xxs: 360;
+
+// Extra large screen > 1440
+$screen-width-xlg: 1440;
+
+// Standard desktop screen > 1366
+$screen-width-standard: 1366;
+
+// Big desktop screen > 1680
+$screen-width-big: 1680;
+
+/* Specific breakpoints */
+
+// Solves clipping issues on alt-desktop layout between 992 and 1365;
+$screen-width-clg: 1365;
+
+// Solve for blink browser ignoring scrollbars and webkit including them in media queries
+$screen-width-sclg: 1350;
+
+// Solves scaling issues because of bootstrap-4-grid md breakpoint;
+$screen-width-bmd: 992;
+
+// Solves croppping issue on imageCarousel on inbetween screensizes
+$screen-width-ixs: 480;
+
+// Solves header issue for cg on ipads
+$screen-width-amd: 1028;
