@@ -1,0 +1,39 @@
+@import '../../assets/scss/mixins.scss';
+
+.floating_button {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  height: 46px;
+  border-radius: 5px;
+  background-color: #fff;
+  transform: translate(-50%);
+  z-index: 600;
+  box-shadow: 0 16px 30px -10px rgba(20,55,125,.8);
+  overflow: hidden;
+  @include respond-to(md) {
+    display: none;
+  }
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 166px;
+    border: .5px solid #eeeff5;
+    border-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    background-color: #fff;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 27px;
+    letter-spacing: -.2px;
+    color: #030f1c;
+    box-shadow: none;
+    p {
+      margin-left: 8px;
+    }
+  }
+}

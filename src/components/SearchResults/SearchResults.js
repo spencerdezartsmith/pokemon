@@ -3,6 +3,7 @@ import classes from './SearchResults.module.scss';
 import axios from 'axios';
 import PokeCard from '../PokeCard/PokeCard';
 import InfiniteScroll from 'react-infinite-scroller';
+import FloatingButton from '../FloatingButton/FloatingButton';
 
 const POKEMON_BASE = 'https://pokeapi.co/api/v2/pokemon';
 const POKEMON_IMAGE = 'https://pokeres.bastionbot.org/images/pokemon';
@@ -104,6 +105,7 @@ function SearchResults(props) {
   return (
     <div className={classes.container}>
       <div className={classes.filters}>Filters</div>
+      <FloatingButton/>
       {loading ? 
         <p>Loading..</p> : 
         <div className={classes.grid_container}>
