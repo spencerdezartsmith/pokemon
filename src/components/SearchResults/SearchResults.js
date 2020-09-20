@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import classes from './SearchResults.module.scss';
 import axios from 'axios';
 import PokeCard from '../PokeCard/PokeCard';
@@ -102,6 +103,8 @@ function SearchResults(props) {
       types={getTypesString(pokemon[name].types)}/>));
   }
 
+  console.log('=======> props.pokemon', props.pokemon);
+
   return (
     <div className={classes.container}>
       <div className={classes.filters}>Filters</div>
@@ -126,4 +129,10 @@ function SearchResults(props) {
   );
 };
 
-export default SearchResults;
+const mapStateToProps = state => {
+  return {
+    pokemon: state.pokemon
+  };
+};
+
+export default connect(mapStateToProps)(SearchResults);

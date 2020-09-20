@@ -1,9 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+
 import './index.scss';
 import App from './containers/App/App';
 import * as serviceWorker from './serviceWorker';
 import axios from 'axios';
+import reducer from './store/reducer';
 // Inteceptors
 axios.interceptors.request.use(request => {
   return request;
@@ -20,9 +24,14 @@ axios.interceptors.response.use(response => {
   return Promise.reject(error);
 });
 
+// Store
+const store = createStore(reducer);
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
