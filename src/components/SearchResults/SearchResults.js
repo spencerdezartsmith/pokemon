@@ -2,17 +2,19 @@ import React, { useEffect, useState } from 'react';
 import classes from './SearchResults.module.scss';
 import axios from 'axios';
 import PokeCard from '../PokeCard/PokeCard';
-import InfiniteGrid from 'react-infinite-grid';
+import InfiniteScroll from 'react-infinite-scroller';
 
 const POKEMON_BASE = 'https://pokeapi.co/api/v2/pokemon';
 const POKEMON_IMAGE = 'https://pokeres.bastionbot.org/images/pokemon';
 
 function SearchResults(props) {
-  const [pokemon, setPokemon] = useState({ pokemon: {} });
-  const [count, setCount] = useState({ count: 0 });
-  const [next, setNext] = useState({ next: '' });
-  const [loading, setLoading] = useState({ loading: true });
-
+  const [pokemon, setPokemon] = useState({});
+  const [count, setCount] = useState(0);
+  const [next, setNext] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [fetching, setFetching] = useState(false);
+  const [initialLoad, setInitialLoad] = useState(true);
+  
   useEffect(() => {
     const fetchAllPoke = async () => {
       try {
@@ -41,6 +43,18 @@ function SearchResults(props) {
     fetchAllPoke();
   }, []);
 
+  const handlePokemonData = async (results) => {
+    let pokemonObj = {};
+    for (const value of results) {
+      try {
+        pokemonObj[value.name] = await fetchSinglePoke(value.url);
+      } catch (error) {
+        console.log(`Error:: ${error}`);
+      }
+    }
+    return pokemonObj;
+  }
+
   const fetchSinglePoke = async (url) => {
     try {
       const result = await axios.get(url);
@@ -49,6 +63,23 @@ function SearchResults(props) {
       }
     } catch (error) {
       throw Error('Something went wrong');
+    }
+  }
+
+  const fetchMore = async () => {
+    setInitialLoad(false);
+    if (next && !fetching) {
+      setFetching(true);
+      const { data } = await axios.get(next);
+      if (data) {
+        const { next, results } = data;
+        setNext(next);
+        if (results) {
+          const newPoke = await handlePokemonData(results);
+          setPokemon({ ...pokemon, ...newPoke});
+          setFetching(false)
+        }
+      }
     }
   }
 
@@ -77,11 +108,17 @@ function SearchResults(props) {
         <p>Loading..</p> : 
         <div className={classes.grid_container}>
           <h2>{count} Results</h2>
-          <div className={classes.results_grid}>
-            {generatePokeCardElements()}
-          </div>
+          <InfiniteScroll
+            pageStart={0}
+            initialLoad={initialLoad}
+            loadMore={fetchMore}
+            hasMore={next != null}
+            loader={<div className="loader" key={0}>Loading ...</div>}>
+            <div className={classes.results_grid}>
+              {generatePokeCardElements()}
+            </div>
+          </InfiniteScroll>
         </div>
-        
       }
     </div>
   );
