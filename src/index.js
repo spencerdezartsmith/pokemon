@@ -1,33 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
-import { Provider } from 'react-redux';
+import { Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 
 import './index.scss';
 import App from './containers/App/App';
 import * as serviceWorker from './serviceWorker';
-import axios from 'axios';
-import pokemonReducer from './store/reducers/pokemonReducer';
+import pokemon from './store/reducers/pokemon';
 
-// Inteceptors
-axios.interceptors.request.use(request => {
-  return request;
-}, error => {
-  console.log(error);
-  return Promise.reject(error);
-});
 
-axios.interceptors.response.use(response => {
-  return response;
-}, error => {
-  console.log(error);
-  return Promise.reject(error);
-});
 
 // Store
 const rootReducer = combineReducers({
-  poke: pokemonReducer,
+  poke: pokemon,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

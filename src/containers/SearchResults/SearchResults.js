@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import classes from './SearchResults.module.scss';
-import PokeCard from '../PokeCard/PokeCard';
+import PokeCard from '../../components/PokeCard/PokeCard';
 import InfiniteScroll from 'react-infinite-scroller';
-import FloatingButton from '../FloatingButton/FloatingButton';
-import * as actionCreators from '../../store/actions/actions';
+import FloatingButton from '../../components/FloatingButton/FloatingButton';
+import Spinner from '../../components/Spinner/Spinner';
+import * as actionCreators from '../../store/actions/index';
 
 function SearchResults(props) {
   const [loading, setLoading] = useState(true);
@@ -57,7 +58,7 @@ function SearchResults(props) {
       <div className={classes.filters}>Filters</div>
       <FloatingButton/>
       {loading ? 
-        <p>Loading..</p> : 
+        <Spinner/> : 
         <div className={classes.grid_container}>
           <h2>{props.count} Results</h2>
           <InfiniteScroll

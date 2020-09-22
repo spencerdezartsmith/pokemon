@@ -1,12 +1,8 @@
 import axios from 'axios';
+import * as actionTypes from './actionTypes';
 
 const POKEMON_BASE = 'https://pokeapi.co/api/v2/pokemon';
 const POKEMON_IMAGE = 'https://pokeres.bastionbot.org/images/pokemon';
-
-export const FETCH_ALL_POKEMON = 'FETCH_ALL_POKEMON';
-export const FETCH_ONE_POKEMON = 'FETCH_ONE_POKEMON';
-export const SAVE_NEXT_URL = 'SAVE_NEXT_URL';
-export const SAVE_POKE_COUNT = 'SAVE_POKE_COUNT';
 
 export const fetchAllPokemon = (savedNext) => {
   return async dispatch => {
@@ -31,30 +27,30 @@ export const fetchAllPokemon = (savedNext) => {
   }
 }
 
+export const fetchOnePokemon = (id) => {
+  return {
+    type: actionTypes.FETCH_ONE_POKEMON,
+    id
+  }
+}
+
 export const saveAllPokemon = (data) => {
   return {
-    type: FETCH_ALL_POKEMON,
+    type: actionTypes.FETCH_ALL_POKEMON,
     data
   }
 }
 
 export const saveNextUrl = (url) => {
   return {
-    type: SAVE_NEXT_URL,
+    type: actionTypes.SAVE_NEXT_URL,
     url
   }
 }
 
 export const savePokeCount = (count) => {
   return {
-    type: SAVE_POKE_COUNT,
+    type: actionTypes.SAVE_POKE_COUNT,
     count
-  }
-}
-
-export const fetchOnePokemon = (id) => {
-  return {
-    type: FETCH_ALL_POKEMON,
-    id
   }
 }

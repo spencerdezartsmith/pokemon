@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import classes from './App.module.scss';
 import Header from '../../components/Header/Header';
-import SearchResults from '../../components/SearchResults/SearchResults';
+import SearchResults from '../SearchResults/SearchResults';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faSlidersH, faSort } from '@fortawesome/free-solid-svg-icons';
 
