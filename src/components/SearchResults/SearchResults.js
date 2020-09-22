@@ -1,87 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import classes from './SearchResults.module.scss';
-import axios from 'axios';
 import PokeCard from '../PokeCard/PokeCard';
 import InfiniteScroll from 'react-infinite-scroller';
 import FloatingButton from '../FloatingButton/FloatingButton';
-
-const POKEMON_BASE = 'https://pokeapi.co/api/v2/pokemon';
-const POKEMON_IMAGE = 'https://pokeres.bastionbot.org/images/pokemon';
+import * as actionCreators from '../../store/actions/actions';
 
 function SearchResults(props) {
-  const [pokemon, setPokemon] = useState({});
-  const [count, setCount] = useState(0);
-  const [next, setNext] = useState('');
   const [loading, setLoading] = useState(true);
   const [fetching, setFetching] = useState(false);
   const [initialLoad, setInitialLoad] = useState(true);
+
+  const { fetchAllPoke } = props;
   
   useEffect(() => {
-    const fetchAllPoke = async () => {
+    const fetch = async () => {
       try {
-        const { data } = await axios.get(POKEMON_BASE);
-        if (data) {
-          const { count, next, results } = data;
-          if (count) setCount(count);
-          if (next) setNext(next);
-          if (results) {
-            let pokemonObj = {};
-            for (const value of results) {
-              try {
-                pokemonObj[value.name] = await fetchSinglePoke(value.url);
-              } catch (error) {
-                console.log(`Error:: ${error}`);
-              }
-            }
-            setPokemon(pokemonObj);
-            setLoading(false);
-          }
-        }
+        await fetchAllPoke();
+        setLoading(false);
       } catch (error) {
         console.log(`Error:: ${error}`);
       }
     }
-    fetchAllPoke();
-  }, []);
-
-  const handlePokemonData = async (results) => {
-    let pokemonObj = {};
-    for (const value of results) {
-      try {
-        pokemonObj[value.name] = await fetchSinglePoke(value.url);
-      } catch (error) {
-        console.log(`Error:: ${error}`);
-      }
-    }
-    return pokemonObj;
-  }
-
-  const fetchSinglePoke = async (url) => {
-    try {
-      const result = await axios.get(url);
-      if (result.data) {
-        return { ...result.data, image: `${POKEMON_IMAGE}/${result.data.id}.png`};
-      }
-    } catch (error) {
-      throw Error('Something went wrong');
-    }
-  }
+    fetch();
+  }, [fetchAllPoke]);
 
   const fetchMore = async () => {
     setInitialLoad(false);
-    if (next && !fetching) {
+    if (props.next && !fetching) {
       setFetching(true);
-      const { data } = await axios.get(next);
-      if (data) {
-        const { next, results } = data;
-        setNext(next);
-        if (results) {
-          const newPoke = await handlePokemonData(results);
-          setPokemon({ ...pokemon, ...newPoke});
-          setFetching(false)
-        }
-      }
+      await fetchAllPoke(props.next);
+      setFetching(false);
     }
   }
 
@@ -95,15 +44,13 @@ function SearchResults(props) {
   }
 
   const generatePokeCardElements = () => {
-    return Object.keys(pokemon).map(name => (<PokeCard
-      key={pokemon[name].id}
-      id={pokemon[name].id}
-      image={pokemon[name].image} 
+    return Object.keys(props.pokemon).map(name => (<PokeCard
+      key={props.pokemon[name].id}
+      id={props.pokemon[name].id}
+      image={props.pokemon[name].image} 
       name={capitalise(name)}
-      types={getTypesString(pokemon[name].types)}/>));
+      types={getTypesString(props.pokemon[name].types)}/>));
   }
-
-  console.log('=======> props.pokemon', props.pokemon);
 
   return (
     <div className={classes.container}>
@@ -112,12 +59,13 @@ function SearchResults(props) {
       {loading ? 
         <p>Loading..</p> : 
         <div className={classes.grid_container}>
-          <h2>{count} Results</h2>
+          <h2>{props.count} Results</h2>
           <InfiniteScroll
             pageStart={0}
             initialLoad={initialLoad}
             loadMore={fetchMore}
-            hasMore={next != null}
+            hasMore={props.next != null}
+            threshold={800}
             loader={<div className="loader" key={0}>Loading ...</div>}>
             <div className={classes.results_grid}>
               {generatePokeCardElements()}
@@ -131,8 +79,17 @@ function SearchResults(props) {
 
 const mapStateToProps = state => {
   return {
-    pokemon: state.pokemon
+    pokemon: state.poke.pokemon,
+    count: state.poke.count,
+    next: state.poke.next,
   };
 };
 
-export default connect(mapStateToProps)(SearchResults);
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchAllPoke: (next) => dispatch(actionCreators.fetchAllPokemon(next)),
+    fetchOnePoke: (id) => dispatch({ type: actionCreators.fetchOnePokemon(id)}),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);
