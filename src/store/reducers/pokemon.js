@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState = {
   pokemon: {},
+  selectedPokemon: {},
   next: '',
   count: 0
 }
@@ -11,6 +12,10 @@ const reducer = (state = initialState, action) => {
     case actionTypes.FETCH_ALL_POKEMON:
       return Object.assign({}, state, {
         pokemon: { ...state.pokemon, ...action.data }
+      });
+    case actionTypes.SET_SELECTED_POKEMON:
+      return Object.assign({}, state, {
+        selectedPokemon: action.data
       });
     case actionTypes.SAVE_NEXT_URL:
       return Object.assign({}, state, {

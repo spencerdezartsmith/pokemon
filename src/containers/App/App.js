@@ -7,12 +7,20 @@ import {
 import classes from './App.module.scss';
 import Header from '../../components/Header/Header';
 import SearchResults from '../SearchResults/SearchResults';
+import PokemonDetails from '../PokemonDetails/PokemonDetails';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faSlidersH, faSort } from '@fortawesome/free-solid-svg-icons';
+import { 
+  faSlidersH,
+  faSort,
+  faChevronLeft,
+} from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
 library.add(
   faSlidersH,
   faSort,
+  faChevronLeft,
+  faHeart
 );
 
 function App() {
@@ -25,7 +33,7 @@ function App() {
           <div>Hello shortlist</div>
         </Route>
         <Route path="/pokemon/:id">
-          <div>Hello pokemon page</div>
+          <PokemonDetails/>
         </Route>
         <Route path="/">
           <SearchResults/>

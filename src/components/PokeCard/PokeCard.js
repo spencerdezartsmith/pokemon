@@ -1,13 +1,9 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import classes from './PokeCard.module.scss';
 
 function PokeCard(props) {
-  const history = useHistory();
-  const handleClick = (id) => history.push(`/pokemon/${props.id}`);
-
   return (
-      <div className={classes.card} onClick={handleClick}>
+      <div className={classes.card} onClick={props.onClicked}>
       <div className={classes.image_box}>
         <img className={classes.image} src={props.image} alt='pokemon-character'/>
       </div>
