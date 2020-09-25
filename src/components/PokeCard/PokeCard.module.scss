@@ -10,7 +10,7 @@
   }
   .details_box {
     display: grid;
-    grid-template-columns: 25% 1fr;
+    grid-template-columns: 1fr 2fr;
     grid-template-rows: repeat(2, 40px);
     grid-template-areas:
       'title_name name'
@@ -21,13 +21,11 @@
     .title_name, .title_types {
       font-size: 14px;
       font-weight: 500;
+      margin-right: 10px;
     }
     .types {
       display: flex;
       font-size: 14px;
-    }
-    .name {
-
     }
   }
   .image_box {

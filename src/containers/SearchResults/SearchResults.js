@@ -5,6 +5,7 @@ import classes from './SearchResults.module.scss';
 import PokeCard from '../../components/PokeCard/PokeCard';
 import InfiniteScroll from 'react-infinite-scroller';
 import FloatingButton from '../../components/FloatingButton/FloatingButton';
+import SearchBox from '../../components/SearchBox/SearchBox';
 import Spinner from '../../components/Spinner/Spinner';
 import * as actionCreators from '../../store/actions/index';
 
@@ -64,7 +65,9 @@ function SearchResults(props) {
 
   return (
     <div className={classes.container}>
-      <div className={classes.filters}>Filters</div>
+      <div className={classes.filters}>
+        <SearchBox/>
+      </div>
       <FloatingButton/>
       {loading ? 
         <Spinner/> : 

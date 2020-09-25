@@ -12,6 +12,7 @@
       height: 800px;
       min-width: 270px;
       background-color: white;
+      padding: 20px 10px 0 20px;
     }
   }
   .grid_container {
@@ -27,9 +28,9 @@
       justify-content: center;
       grid-auto-flow: dense;
       grid-area: mainCol;
-      padding: 8px;
       transition: all .5;
       @include respond-to(xsmall) {
+        padding: 8px;
         grid-template-columns: repeat(2, minmax(172px, 365px));
       }
       @include respond-to(sm) {

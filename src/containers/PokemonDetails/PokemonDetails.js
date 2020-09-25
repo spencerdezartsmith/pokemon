@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const POKEMON_IMAGE = 'https://pokeres.bastionbot.org/images/pokemon';
 const POKEMON_BASE = 'https://pokeapi.co/api/v2/pokemon';
+const POKEMON_MOVE_BASE ='https://bulbapedia.bulbagarden.net/wiki';
 
 function PokemonDetails(props) {
   const history = useHistory();
@@ -17,7 +18,7 @@ function PokemonDetails(props) {
   const { id } = useParams();
 
   useEffect(() => {
-    const path = `${POKEMON_IMAGE}/${id}.png`;
+    let path = '';
     const handleImageLoad = async () => {
       try {
         const result = await checkImage(path);
@@ -41,6 +42,7 @@ function PokemonDetails(props) {
       try {
         const { data } = await axios.get(`${POKEMON_BASE}/${id}`);
         if (data) {
+          path = `${POKEMON_IMAGE}/${data.id}.png`
           setPokemon({ ...data, image: path });
           await handleImageLoad();
           setImageLoaded(true);
@@ -63,14 +65,38 @@ function PokemonDetails(props) {
   }
 
   const statsList = () => {
-    return pokemon.stats.map(stat => <p key={uuidv4()} className={classes.detail}>{stat.stat.name}</p>);
+    return pokemon.stats.map(stat => <div className={classes.stats_container}>
+      <p key={uuidv4()} className={classes.stats}>{formatDescriptor(stat.stat.name)}</p>
+      <p key={uuidv4()} className={classes.stats}>{stat.base_stat}</p>
+    </div>);
   }
 
   const movesList = () => {
     return pokemon.moves.map(entry => <div key={uuidv4()} className={classes.move}>
-        <p>{entry.move.name}</p>
+        <a href={`${POKEMON_MOVE_BASE}/${formatMoveDescriptionParam(entry.move.name)}`}>{formatDescriptor(entry.move.name)}</a>
       </div>
     );
+  }
+
+  const spritesList = () => {
+    const sprites = [];
+    const ignoreKeys = ['other', 'versions'];
+    Object.keys(pokemon.sprites).forEach(spriteKey => {
+      if (pokemon.sprites[spriteKey] && !ignoreKeys.includes(spriteKey)) sprites.push(pokemon.sprites[spriteKey]);
+    })
+    return sprites.map(sprite => <div key={sprite}>
+        <img src={sprite} alt="pokemon"/>
+      </div>
+    )
+  }
+
+  const formatDescriptor = (descriptor) => {
+    return `${descriptor.split('-').map(word => capitalise(word)).join(' ')}`;
+  }
+
+  const formatMoveDescriptionParam = (move) => {
+    const words = move.split('-');
+    return `${words.map(word => capitalise(word)).join('_')}_(move)`;
   }
 
   return (
@@ -96,12 +122,12 @@ function PokemonDetails(props) {
             {statsList()}
           </div>
         </div>
-        <div className={classes.content}>
-          <div>
-            Sprites will go here
+        <div className={classes.content}> 
+          <div className={classes.sprites_container}>
+            {spritesList()}
           </div>
           <h3>Moves</h3>
-          <div className={classes.movesContainer}>
+          <div className={classes.moves_container}>
             {movesList()}
           </div>
         </div>
